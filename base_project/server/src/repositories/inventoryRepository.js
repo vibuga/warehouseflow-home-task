@@ -7,7 +7,7 @@ export async function searchBins(pool, filters) {
     params.push(`%${filters.sku}%`);
   }
 
-  if (filters.aisle !== undefined) {
+  if (filters.aisle) {
     clauses.push("aisle = ?");
     params.push(filters.aisle);
   }
