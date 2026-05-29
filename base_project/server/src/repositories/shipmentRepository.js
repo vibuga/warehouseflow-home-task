@@ -45,7 +45,7 @@ export async function listForDate(pool, targetDate, timezone) {
   const [rows] = await pool.query(
     `SELECT shipment_number, warehouse_local_timezone, status, scheduled_at_utc
      FROM shipments
-     WHERE DATE(scheduled_at_utc) = ?
+     WHERE DATE(CONVERT_TZ (scheduled_at_utc, 'UTC', warehouse_local_timezone)) = ?
        AND warehouse_local_timezone = ?
      ORDER BY scheduled_at_utc ASC`,
     [targetDate, timezone]
