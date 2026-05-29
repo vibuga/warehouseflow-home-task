@@ -26,6 +26,13 @@
 **Fix:** I changed the value to `openReviewRows.length` so it always perfectly matches the actual number of open items in the table.
 **Test:** (will be added later)
 
+## Bug 5 — Split Vendor Reorder Summaries
+
+**What was wrong:** The vendor summary table was paginating raw low-stock rows *before* grouping them. This caused single vendors to appear multiple times across different pages if their items spanned a page boundary.
+**Root cause:** In `server/src/repositories/reorderRepository.js`, the SQL query applied `LIMIT` and `OFFSET` in a subquery, and grouped the results of that subquery.
+**Fix:** I simplified the SQL query to group by `vendor_name` directly on the `bins` table first, and applied the `LIMIT` and `OFFSET` at the very end.
+**Test:** (will be added later)
+
 
 
 
