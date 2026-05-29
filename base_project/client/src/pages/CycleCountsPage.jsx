@@ -41,7 +41,7 @@ export default function CycleCountsPage({ cycleState, onApplyRecount, onResetDem
         </p>
         <div className="metric-grid metric-grid--compact">
           <MetricCard label="Count rows" value={cycleState.totals.totalRows} />
-          <MetricCard label="Open discrepancy reviews" value={cycleState.totals.openReviewCount} tone="alert" />
+          <MetricCard label="Open discrepancy reviews" value={openReviewRows.length} tone="alert" />
         </div>
         <div className="review-card">
           <h3>Discrepancy Under Review</h3>

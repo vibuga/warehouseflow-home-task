@@ -11,3 +11,21 @@
 **Root cause:** In `server/src/repositories/shipmentRepository.js`, the SQL query used `DATE(scheduled_at_utc)` without converting the timezone first.
 **Fix:** I changed the query to convert the time first using `CONVERT_TZ`: `DATE(CONVERT_TZ(scheduled_at_utc, 'UTC', warehouse_local_timezone)) = ?`.
 **Test:** (will be added later)
+
+## Bug 3 — Blank Aisle Filter
+
+**What was wrong:** Searching inventory with a blank Aisle field returned zero results. The system was trying to find an aisle literally named "" (empty string) instead of just ignoring the filter.
+**Root cause:** In `server/src/repositories/inventoryRepository.js`, the code checked `if (filters.aisle !== undefined)`, which allowed empty strings to pass through to the SQL query.
+**Fix:** I changed the condition to `if (filters.aisle)` so it ignores empty strings.
+**Test:** (will be added later)
+
+## Bug 4 — Stale Discrepancy Review Count
+
+**What was wrong:** The metric card showing the number of open discrepancy reviews didn't update when a review was approved. It was using a static total value instead of the actual number of rows currently in the queue.
+**Root cause:** In `client/src/pages/CycleCountsPage.jsx`, the `MetricCard` used `cycleState.totals.openReviewCount`, which fell out of sync with the displayed rows.
+**Fix:** I changed the value to `openReviewRows.length` so it always perfectly matches the actual number of open items in the table.
+**Test:** (will be added later)
+
+
+
+
